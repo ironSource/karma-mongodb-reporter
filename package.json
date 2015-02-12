@@ -1,6 +1,6 @@
 {
   "name": "karma-mongodb-reporter",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A karma reporter for saving test results to mongodb",
   "main": "index.js",
   "scripts": {
