@@ -9,7 +9,7 @@ var MongoReporter = function(baseReporterDecorator, config, logger, helper, form
   var log = logger.create('reporter.mongo');
   var reporterConfig = config.mongoReporter || {};
   var pkgName = reporterConfig.suite || '';
-  mongoose.connect(config.mongoUrl);
+  mongoose.connect(reporterConfig.mongoUrl);
 
   var suites;
   var pendingDbWritings = 0;
