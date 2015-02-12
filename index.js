@@ -56,18 +56,20 @@ var MongoReporter = function(baseReporterDecorator, config, logger, helper, form
   };
 
   this.onRunComplete = function() {
-    db.create(suites, function(err) {
-        pendingDbWritings++;
-        if (err) {
-            log.warn('Cannot write to db\n\t' + err.message);
-        } else {
-            log.debug('results written to db');
-        }
+      for (bid in suites) {
+          pendingDbWritings++;
+          db.create(suites[bid], function(err) {
+              if (err) {
+                  log.warn('Cannot write to db\n\t' + err.message);
+              } else {
+                  log.debug('results written to db');
+              }
 
-        if (!--pendingDbWritings) {
-            dbWritingFinished();
-        }
-    });
+              if (!--pendingDbWritings) {
+                  dbWritingFinished();
+              }
+          });
+      }
 
     suites = null;
     allMessages.length = 0;
@@ -76,7 +78,7 @@ var MongoReporter = function(baseReporterDecorator, config, logger, helper, form
   this.specSuccess = this.specSkipped = this.specFailure = function(browser, result) {
     var spec = {
       name: result.description, time: ((result.time || 0) / 1000),
-      className: (pkgName ? pkgName + ' ' : '') + browser.name + '.' + result.suite.join(' ').replace(/\./g, '_')
+      className: (pkgName ? pkgName + ' ' : '') + browser.name + '.' + result.suite.join(' ').replace(/\./g, '_'), failures: []
     };
 
     if (result.skipped) {
