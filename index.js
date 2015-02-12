@@ -48,7 +48,7 @@ var MongoReporter = function(baseReporterDecorator, config, logger, helper, form
     var result = browser.lastResult;
 
     suite.tests = result.total;
-    suite.errors = (result.disconnected || result.error ? 1 : 0);
+    suite.errorsNum = (result.disconnected || result.error ? 1 : 0);
     suite.failures = result.failed;
     suite.time = ((result.netTime || 0) / 1000);
     suite.systemOut = (allMessages.join() + '\n');
