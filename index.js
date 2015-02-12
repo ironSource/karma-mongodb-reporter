@@ -25,7 +25,7 @@ var MongoReporter = function(baseReporterDecorator, config, logger, helper, form
   var initializeTestSuite = function(browser) {
     var timestamp = (new Date()).toISOString().substr(0, 19);
     var suite = suites[browser.id] = {
-      name: browser.name, 'package': pkgName, timeStamp: timestamp, id: 0, hostName: os.hostname(), browserFullName:  browser.fullName};
+      name: browser.name, 'package': pkgName, timeStamp: timestamp, id: 0, hostName: os.hostname(), browserFullName:  browser.fullName, testCases :[]};
   };
 
   this.onRunStart = function(browsers) {
@@ -88,7 +88,7 @@ var MongoReporter = function(baseReporterDecorator, config, logger, helper, form
         spec.failures.push({type: '', error: formatError(err)});
       });
     }
-    suites[browser].testCases.push(spec);
+    suites[browser.id].testCases.push(spec);
   };
 
   // wait for writing all the xml files, before exiting
